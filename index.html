@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>SEC Deck Builder</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="/style.css" />
+    </head>
+    <body>
+        <header class="custom-header">
+            <img
+                src="/assets/sec-card-art.png"
+                alt="SEC Card Art"
+                class="header-image"
+            />
+            <p class="custom-text">
+                Build your Extra Deck for the Simultaneous Equation Cannon
+                combo!
+            </p>
+        </header>
+
+        <div class="container">
+            <div class="controls">
+                <h3>XYZ Ranks (Pairs)</h3>
+                <div class="btn-group" id="xyzRanks"></div>
+
+                <h3>Fusion Levels</h3>
+                <div class="btn-group" id="fusionLevels"></div>
+
+                <div class="counter">
+                    Extra Deck: <span id="edCount">0</span>/15
+                </div>
+                <div id="warning" class="warning"></div>
+            </div>
+            <div class="grid">
+                <table id="mainGrid">
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <script src="/script.js"></script>
+        <section class="explanation-box">
+            <h2>Simultaneous Equation Cannon Effects</h2>
+            <ol>
+                <li>
+                    Banish 1 pair of same-rank XYZ monsters and 1 Fusion monster
+                    (3 Extra Deck cards) whose combined Levels/Ranks equal the
+                    total number of cards in both players' hands and fields.
+                </li>
+                <li>
+                    Return 1 banished XYZ and 1 banished Fusion monster to the
+                    Extra Deck whose combined Levels/Ranks equal a face-up
+                    monster your opponent controls, then banish all cards they
+                    control.
+                </li>
+            </ol>
+
+            <h3>Key Tips</h3>
+            <ul>
+                <li>
+                    The returned banished monsters don't need to be those
+                    banished by this effect
+                </li>
+                <li>This card's effect isn't Hard Once Per Turn (HOPT)</li>
+                <li>
+                    Both effects resolve simultaneously - opponents can't
+                    anticipate your secondary targets
+                </li>
+                <li>
+                    Chain manipulation (Dogmatika Punishment, Maxx "C", etc.)
+                    can control total card counts
+                </li>
+            </ul>
+        </section>
+    </body>
+</html>
