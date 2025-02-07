@@ -1,81 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>SEC Deck Builder</title>
-        <link
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
-            rel="stylesheet"
-        />
-        <link rel="stylesheet" href="./style.css" />
-    </head>
-    <body>
-        <header class="custom-header">
-            <img
-                src="./assets/sec-card-art.png"
-                alt="SEC Card Art"
-                class="header-image"
-            />
-            <p class="custom-text">
-                Simultaneous Equation Cannon
-            </p>
-        </header>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SEC Deck Builder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+    <header class="custom-header">
+        <img src="./assets/sec-card-art.png" alt="SEC Card Art" class="header-image" />
+        <p class="custom-text">Simultaneous Equation Cannon</p>
+    </header>
 
-        <div class="container">
-            <div class="controls">
-                <h3>XYZ Ranks (Pairs)</h3>
-                <div class="btn-group" id="xyzRanks"></div>
+    <div class="container">
+        <div class="controls">
+            <h3>XYZ Ranks (Pairs)</h3>
+            <div class="btn-group" id="xyzRanks"></div>
 
-                <h3>Fusion Levels</h3>
-                <div class="btn-group" id="fusionLevels"></div>
+            <h3>Fusion Levels</h3>
+            <div class="btn-group" id="fusionLevels"></div>
 
-                <div class="counter">
-                    Extra Deck: <span id="edCount">0</span>/15
+            <div class="counter">Extra Deck: <span id="edCount">0</span>/15</div>
+            <div id="warning" class="warning"></div>
+        </div>
+        
+        <div class="grid">
+            <table id="mainGrid">
+                <tbody></tbody>
+            </table>
+            <div class="legend">
+                <div class="legend-item">
+                    <span class="color-box total-part"></span>
+                    <span>Total Cards</span>
                 </div>
-                <div id="warning" class="warning"></div>
-            </div>
-            <div class="grid">
-                <table id="mainGrid">
-                    <tbody></tbody>
-                </table>
+                <div class="legend-item">
+                    <span class="color-box xyz-part"></span>
+                    <span>XYZ Rank</span>
+                </div>
+                <div class="legend-item">
+                    <span class="color-box fusion-part"></span>
+                    <span>Fusion Level</span>
+                </div>
+                <div class="legend-item">
+                    <span class="color-box target-part"></span>
+                    <span>Target Level/Rank</span>
+                </div>
             </div>
         </div>
+    </div>
 
-        <script src="./script.js"></script>
-        <section class="explanation-box">
-            <h2>Simultaneous Equation Cannon's Effect</h2>
-            <h3> These 2 effects will resolve in sequence</h3>
-            <ol>
+    <script src="./script.js"></script>
+    <section class="explanation-box">
+        <h2 class="effect-heading">Card Effect Breakdown</h2>
+        <p class="effect-subheading">Activation Requirements & Resolution Steps</p>
+        
+        <div class="effect-step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+                <h3>Cost Payment</h3>
+                <p>Banish from your Extra Deck face-up:</p>
+                <ul class="cost-list">
+                    <li><span class="xyz-text">2 XYZ Monsters</span> with the same Rank</li>
+                    <li><span class="fusion-text">1 Fusion Monster</span></li>
+                </ul>
+                <p class="condition">Their combined Levels/Ranks must equal the total number of cards in both players' hands and on the field.</p>
+            </div>
+        </div>
+    
+        <div class="effect-step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+                <h3>Effect Resolution</h3>
+                <p>Return to the Extra Deck:</p>
+                <ul class="resolution-list">
+                    <li><span class="xyz-text">1 XYZ Monster</span> from your banished cards</li>
+                    <li><span class="fusion-text">1 Fusion Monster</span> from your banished cards</li>
+                </ul>
+                <p class="condition">Their combined Levels/Ranks must match the Level/Rank of 1 face-up monster your opponent controls.</p>
+                <p class="result">Then, banish all cards your opponent controls.</p>
+            </div>
+        </div>
+    
+        <div class="key-tips">
+            <h2 class="tips-heading">Advanced Play Tips</h2>
+            <ul class="tip-list">
                 <li>
-                    Banish 1 pair of same-rank XYZ monsters and 1 Fusion monster
-                    (3 Extra Deck cards) whose combined Levels/Ranks equal the
-                    total number of cards in both players' hands and fields.
+                    <div class="tip-header">Chain Flexibility</div>
+                    <div class="tip-content">Activate during either player's turn. Not HOPT - can be used multiple times per turn if possible</div>
                 </li>
                 <li>
-                    Return 1 banished XYZ and 1 banished Fusion monster to the
-                    Extra Deck whose combined Levels/Ranks equal a face-up
-                    monster your opponent controls, then banish all cards they
-                    control.
-                </li>
-            </ol>
-
-            <h2>Key Tips</h2>
-            <ul>
-                <li>
-                    The returned banished monsters don't need to be those
-                    banished by this effect
-                </li>
-                <li>This card's effect isn't Hard Once Per Turn (HOPT)</li>
-                <li>
-                    Both effects resolve simultaneously - opponents can't
-                    anticipate your secondary targets
+                    <div class="tip-header">Resource Management</div>
+                    <div class="tip-content">Returned monsters don't need to be the ones banished for activation</div>
                 </li>
                 <li>
-                    Chain manipulation (Dogmatika Punishment, Maxx "C", etc.)
-                    can control total card counts
+                    <div class="tip-header">Combo Potential</div>
+                    <div class="tip-content">Pair with Dogmatika cards or Maxx "C" to manipulate card counts</div>
+                </li>
+                <li>
+                    <div class="tip-header">Mind Games</div>
+                    <div class="tip-content">Opponents can't anticipate which monster you'll target for the second effect</div>
                 </li>
             </ul>
-        </section>
-    </body>
+        </div>
+    </section>
+</body>
 </html>

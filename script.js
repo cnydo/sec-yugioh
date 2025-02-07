@@ -1,30 +1,26 @@
 let xyzSelections = new Set();
 let fusionSelections = new Set();
+let selectedTargets = new Set();
 
 function initializeApp() {
     createButtons();
-    updateGrid();
+    createGrid();
+    document.querySelector('#mainGrid tbody').addEventListener('click', handleGridClick);
 }
 
 function createButtons() {
-    // Create XYZ buttons
-    const xyzContainer = document.getElementById('xyzRanks');
-    for (let i = 1; i <= 12; i++) {
-        const btn = document.createElement('button');
-        btn.className = 'btn';
-        btn.textContent = i;
-        btn.addEventListener('click', (event) => toggleSelection(i, 'xyz', event));
-        xyzContainer.appendChild(btn);
-    }
+    createButtonGroup('xyzRanks', 12, 'xyz');
+    createButtonGroup('fusionLevels', 12, 'fusion');
+}
 
-    // Create Fusion buttons
-    const fusionContainer = document.getElementById('fusionLevels');
-    for (let i = 1; i <= 12; i++) {
+function createButtonGroup(containerId, count, type) {
+    const container = document.getElementById(containerId);
+    for (let i = 1; i <= count; i++) {
         const btn = document.createElement('button');
         btn.className = 'btn';
         btn.textContent = i;
-        btn.addEventListener('click', (event) => toggleSelection(i, 'fusion', event));
-        fusionContainer.appendChild(btn);
+        btn.addEventListener('click', (e) => toggleSelection(i, type, e));
+        container.appendChild(btn);
     }
 }
 
@@ -32,78 +28,75 @@ function toggleSelection(value, type, event) {
     const set = type === 'xyz' ? xyzSelections : fusionSelections;
     const btn = event.target;
     
-    if (set.has(value)) {
-        set.delete(value);
-        btn.classList.remove(type === 'xyz' ? 'xyz-selected' : 'fusion-selected');
-    } else {
-        set.add(value);
-        btn.classList.add(type === 'xyz' ? 'xyz-selected' : 'fusion-selected');
-    }
-    updateGrid();
+    set.has(value) ? set.delete(value) : set.add(value);
+    btn.classList.toggle(`${type}-selected`, set.has(value));
+    updateCombinations();
 }
 
-function updateGrid() {
-    // Update counter and warnings
-    const edCount = xyzSelections.size * 2 + fusionSelections.size;
-    document.getElementById('edCount').textContent = edCount;
-    document.getElementById('warning').textContent = 
-        edCount > 15 ? 'Extra Deck limit exceeded!' : '';
-
-    // Generate grid
+function createGrid() {
     const tbody = document.querySelector('#mainGrid tbody');
     tbody.innerHTML = '';
     
     for (let target = 2; target <= 12; target++) {
         const row = document.createElement('tr');
         
-        // Target cell
         const targetCell = document.createElement('td');
-        targetCell.textContent = target;
         targetCell.className = 'target-cell';
+        targetCell.textContent = target;
+        targetCell.dataset.target = target;
         row.appendChild(targetCell);
         
-        // Combinations cell
         const combosCell = document.createElement('td');
-        const combinations = [];
+        combosCell.className = 'combos-cell';
+        row.appendChild(combosCell);
+        
+        tbody.appendChild(row);
+    }
+    updateCombinations();
+}
+
+function handleGridClick(event) {
+    const targetCell = event.target.closest('.target-cell');
+    if (targetCell) {
+        const target = parseInt(targetCell.dataset.target);
+        selectedTargets.has(target) ? selectedTargets.delete(target) : selectedTargets.add(target);
+        targetCell.classList.toggle('selected', selectedTargets.has(target));
+        updateCombinations();
+    }
+}
+
+function updateCombinations() {
+    document.querySelectorAll('.combos-cell').forEach(cell => {
+        cell.innerHTML = '';
+        const target = parseInt(cell.previousElementSibling.dataset.target);
         
         for (let x = 1; x < target; x++) {
             const f = target - x;
             if (f < 1 || f > 12) continue;
             
-            const total = (2 * x) + f;
             const comboGroup = document.createElement('div');
             comboGroup.className = 'combo-group';
-            comboGroup.style.display = 'inline-flex';
-          
-            // Total part
-            const totalPart = document.createElement('span');
-            totalPart.className = 'combo-part total-part';
-            totalPart.textContent = total;
             
-            // XYZ part
-            const xyzPart = document.createElement('span');
-            xyzPart.className = 'combo-part xyz-part';
-            xyzPart.textContent = x;
+            const isAvailable = xyzSelections.has(x) && fusionSelections.has(f);
+            const isHighlighted = selectedTargets.has(target);
             
-            // Fusion part
-            const fusionPart = document.createElement('span');
-            fusionPart.className = 'combo-part fusion-part';
-            fusionPart.textContent = f;
+            comboGroup.classList.toggle('available', isAvailable);
+            comboGroup.classList.toggle('target-highlight', isHighlighted);
             
-            comboGroup.appendChild(totalPart);
-            comboGroup.appendChild(xyzPart);
-            comboGroup.appendChild(fusionPart);
+            [ (2 * x) + f, x, f ].forEach((value, index) => {
+                const part = document.createElement('span');
+                part.className = `combo-part ${['total', 'xyz', 'fusion'][index]}-part`;
+                part.textContent = value;
+                comboGroup.appendChild(part);
+            });
             
-            if (xyzSelections.has(x) && fusionSelections.has(f)) {
-                comboGroup.classList.add('available');
-            }
-            
-            combosCell.appendChild(comboGroup);
+            cell.appendChild(comboGroup);
         }
-        row.appendChild(combosCell);
-        tbody.appendChild(row);
-    }
+    });
+    
+    document.getElementById('edCount').textContent = xyzSelections.size * 2 + fusionSelections.size;
+    document.getElementById('warning').textContent = 
+        xyzSelections.size * 2 + fusionSelections.size > 15 ? 'Extra Deck limit exceeded!' : '';
 }
 
-// Initialize the app when DOM is loaded
 document.addEventListener('DOMContentLoaded', initializeApp);
