@@ -52,57 +52,78 @@
 
     <script src="script.js"></script>
     <section class="explanation-box">
-        <h2 class="effect-heading">Card Effect Breakdown</h2>
-        <p class="effect-subheading">Activation Requirements & Resolution Steps</p>
-        
-        <div class="effect-step">
-            <div class="step-number">1</div>
-            <div class="step-content">
-                <h3>Cost Payment</h3>
-                <p>Banish from your Extra Deck face-up:</p>
-                <ul class="cost-list">
-                    <li><span class="xyz-text">2 XYZ Monsters</span> with the same Rank</li>
-                    <li><span class="fusion-text">1 Fusion Monster</span></li>
-                </ul>
-                <p class="condition">Their combined Levels/Ranks must equal the total number of cards in both players' hands and on the field.</p>
+        <div class="effect-flow">
+            <h2>Effect Resolution Process</h2>
+            
+            <div class="effect-phase">
+                <div class="phase-marker">1</div>
+                <div class="phase-content">
+                    <p>
+                        <span class="keyword-header">Banish from Extra Deck:</span><br>
+                        <span class="fusion-highlight">1 Fusion Monster</span> + 
+                        <span class="xyz-highlight">2 XYZ Monsters</span> (same Rank)<br>
+                        <em class="condition">Total Levels/Ranks = Total cards in both players' hands and fields</em>
+                    </p>
+                </div>
+            </div>
+    
+            <div class="effect-arrow">▼</div>
+    
+            <div class="effect-phase">
+                <div class="phase-marker">2</div>
+                <div class="phase-content">
+                    <p>
+                        <span class="keyword-header">Return to Extra Deck:</span><br>
+                        <span class="fusion-highlight">1 Fusion Monster</span> + 
+                        <span class="xyz-highlight">1 XYZ Monster</span> from banished<br>
+                        <em class="condition">Total Levels/Ranks = Level/Rank of 1 face-up monster your opponent controls</em>
+                    </p>
+                    <p class="result-line">Then banish all cards your opponent controls</p>
+                </div>
             </div>
         </div>
     
-        <div class="effect-step">
-            <div class="step-number">2</div>
-            <div class="step-content">
-                <h3>Effect Resolution</h3>
-                <p>Return to the Extra Deck:</p>
-                <ul class="resolution-list">
-                    <li><span class="xyz-text">1 XYZ Monster</span> from your banished cards</li>
-                    <li><span class="fusion-text">1 Fusion Monster</span> from your banished cards</li>
-                </ul>
-                <p class="condition">Their combined Levels/Ranks must match the Level/Rank of 1 face-up monster your opponent controls.</p>
-                <p class="result">Then, banish all cards your opponent controls.</p>
-            </div>
-        </div>
-    
-        <div class="key-tips">
-            <h2 class="tips-heading">Advanced Play Tips</h2>
-            <ul class="tip-list">
-                <li>
-                    <div class="tip-header">Chain Flexibility</div>
-                    <div class="tip-content">Activate during either player's turn. Not HOPT - can be used multiple times per turn if possible</div>
-                </li>
-                <li>
-                    <div class="tip-header">Resource Management</div>
-                    <div class="tip-content">Returned monsters don't need to be the ones banished for activation</div>
-                </li>
-                <li>
-                    <div class="tip-header">Combo Potential</div>
-                    <div class="tip-content">Pair with Dogmatika cards or Maxx "C" to manipulate card counts</div>
-                </li>
-                <li>
-                    <div class="tip-header">Mind Games</div>
-                    <div class="tip-content">Opponents can't anticipate which monster you'll target for the second effect</div>
-                </li>
-            </ul>
+        <div class="strategy-guide">
+            <h2>Notes</h2>
+            <div class="strategy-line">Non-HOPT effect: Multiple activations per turn possible</div>
+            <div class="strategy-line">This card has no cost. All the banish and choosing happen resolution</div>
+            <div class="strategy-line">The 2nd part of effect that return banished monsters and banish opponent's cards is optional</div>
+            <div class="strategy-line">Returned monsters can be different from banished ones</div>
+            <div class="strategy-line">Utilize cards like Dogmatika Punishment, Furnitures, Arias, Ice Dragon Prison... to manipulate the total card count</div>
         </div>
     </section>
+    <div class="math-section">
+        <div class="math-header">
+            <span>Math Nerd</span>
+            <span class="expand-icon">▼</span>
+        </div>
+        <div class="math-content">
+            <pre>
+    Quick Condition Check: 
+    Monster Target (T) < Total Cards (C) < 2×Target
+    
+    Derivation:
+    Let X = XYZ Rank, F = Fusion Level
+    
+    From SEC Requirements:
+    ① 2X + F = C (Total Cards)
+    ② X + F = T (Monster Target)
+    
+    Solving Simultaneously:
+    From ②: F = T - X
+    Substitute into ①:
+    2X + (T - X) = C → X = C - T
+    
+    Then:
+    F = T - (C - T) = 2T - C
+    
+    Valid Solutions Require:
+    X > 0 → C - T > 0 → C > T
+    F > 0 → 2T - C > 0 → C < 2T
+    
+    ∴ T < C < 2T
+            </pre>
+        </div>
+    </div>
 </body>
 </html>

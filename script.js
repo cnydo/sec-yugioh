@@ -100,3 +100,8 @@ function updateCombinations() {
 }
 
 document.addEventListener('DOMContentLoaded', initializeApp);
+// Math
+document.querySelector('.math-header').addEventListener('click', function() {
+    const section = this.closest('.math-section');
+    section.classList.toggle('open');
+});
