@@ -6,6 +6,23 @@
     <title>SEC Deck Builder</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true,
+                packages: {'[+]': ['text']}
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            }
+        };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+    </script>
 </head>
 <body>
     <header class="custom-header">
@@ -53,7 +70,7 @@
     <script src="script.js"></script>
     <section class="explanation-box">
         <div class="effect-flow">
-            <h2>Effect Resolution Process</h2>
+            <h2>Effect Resolving Process</h2>
             
             <div class="effect-phase">
                 <div class="phase-marker">1</div>
@@ -85,7 +102,7 @@
     
         <div class="strategy-guide">
             <h2>Notes</h2>
-            <div class="strategy-line">Non-HOPT effect: Multiple activations per turn possible</div>
+            <div class="strategy-line">It's not HOPT so you can activate it multiple times per turn</div>
             <div class="strategy-line">This card has no cost. All the banish and choosing happen resolution</div>
             <div class="strategy-line">The 2nd part of effect that return banished monsters and banish opponent's cards is optional</div>
             <div class="strategy-line">Returned monsters can be different from banished ones</div>
@@ -98,31 +115,47 @@
             <span class="expand-icon">▼</span>
         </div>
         <div class="math-content">
-            <pre>
-    Quick Condition Check: 
-    Monster Target (T) < Total Cards (C) < 2×Target
+            <div class="math-text">
+                <p>When \(a \ne 0\), there are two solutions to \(ax^2 + bx + c = 0\) and they are
+                    $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$</p>
+                <h3>TLDR</h3>
+                <p>\textup(Monster Target) \( T < C < 2T \)</p>
     
-    Derivation:
-    Let X = XYZ Rank, F = Fusion Level
-    
-    From SEC Requirements:
-    ① 2X + F = C (Total Cards)
-    ② X + F = T (Monster Target)
-    
-    Solving Simultaneously:
-    From ②: F = T - X
-    Substitute into ①:
-    2X + (T - X) = C → X = C - T
-    
-    Then:
-    F = T - (C - T) = 2T - C
-    
-    Valid Solutions Require:
-    X > 0 → C - T > 0 → C > T
-    F > 0 → 2T - C > 0 → C < 2T
-    
-    ∴ T < C < 2T
-            </pre>
+                <h3>Derivation</h3>
+                <p>Let \( X \) = XYZ Rank, \( F \) = Fusion Level</p>
+                
+                <p>From SEC Requirements:</p>
+                \[
+                \begin{cases}
+                    2X + F = C & \text{(Total Cards)} \\
+                    X + F = T & \text{(Monster Target)}
+                \end{cases}
+                \]
+                
+                <p>Solving Simultaneously:</p>
+                <p>From ②: \( F = T - X \)</p>
+                <p>Substitute into ①:</p>
+                \[
+                2X + (T - X) = C \implies X = C - T
+                \]
+                
+                <p>Then:</p>
+                \[
+                F = T - (C - T) = 2T - C
+                \]
+                
+                <p>Valid Solutions Require:</p>
+                \[
+                \begin{aligned}
+                    X > 0 &\implies C - T > 0 \implies C > T \\
+                    F > 0 &\implies 2T - C > 0 \implies C < 2T
+                \end{aligned}
+                \]
+                
+                \[
+                \therefore T < C < 2T
+                \]
+            </div>
         </div>
     </div>
 </body>

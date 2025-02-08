@@ -89,7 +89,7 @@ body {
     background: rgba(255, 255, 255, 0.98);
     border-radius: 12px;
     padding: 2rem;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
 }
 
 .btn-group {
@@ -373,7 +373,7 @@ body {
     color: var(--xyz-color);
     font-weight: 600;
     padding: 2px 4px;
-    background: rgba(0,0,0,0.05);
+    background: rgba(0,0,0,0.1);
     border-radius: 4px;
 }
 
@@ -381,7 +381,7 @@ body {
     color: var(--fusion-color);
     font-weight: 600;
     padding: 2px 4px;
-    background: rgba(188,90,132,0.05);
+    background: rgba(182, 71, 119, 0.15);
     border-radius: 4px;
 }
 
@@ -542,6 +542,7 @@ body {
 
 .math-section {
     background: rgba(147, 181, 198, 0.08);
+    border: 1px solid var(--sage);
     border-radius: 8px;
     margin-top: 1.5rem;
     overflow: hidden;
@@ -565,15 +566,14 @@ body {
 }
 
 .math-content {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease;
-    padding: 0 1rem;
+    padding: 1rem 1rem; /* Original side padding */
+    box
 }
 
 .math-section.open .math-content {
-    max-height: 500px; /* Adjust based on content */
-    padding: 1rem;
+    padding: 1rem; /* Add uniform padding when expanded */
+    display: flex;
+    gap: 1rem; /* Space between header and content */
 }
 
 .math-section.open .expand-icon {
@@ -591,4 +591,47 @@ pre {
     padding: 1rem;
     border-radius: 6px;
     border: 1px solid var(--sage);
+}
+
+.math-text {
+    padding: 1.5rem;
+    margin: 1rem 1rem; /* Add vertical margin */
+    width: auto;
+    box-sizing: border-box;
+    position: relative;
+    background: rgba(255,255,255,0.9);
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.math-text h3 {
+    margin: 1.5rem 0 1rem;
+}
+
+.math-text h3:first-child {
+    margin-top: 0.5rem; /* Reduce top spacing for first heading */
+}
+
+.math-text p {
+    margin: 0.8em 0;
+}
+
+.math-text .MathJax {
+    margin: 0.5em 0 !important;
+}
+
+.MathJax_Display {
+    margin: 1em 0 !important;
+}
+
+/* Fix equation rendering colors */
+.MathJax * {
+    color: inherit !important;
+}
+
+.math-text::before,
+.math-text::after {
+    content: '';
+    display: block;
+    height: 1rem;
 }
