@@ -41,7 +41,7 @@
             <div class="counter">Extra Deck: <span id="edCount">0</span>/15</div>
             <div id="warning" class="warning"></div>
         </div>
-        
+
         <div class="grid">
             <table id="mainGrid">
                 <tbody></tbody>
@@ -71,27 +71,27 @@
     <section class="explanation-box">
         <div class="effect-flow">
             <h2>Effect Resolving Process</h2>
-            
+
             <div class="effect-phase">
                 <div class="phase-marker">1</div>
                 <div class="phase-content">
                     <p>
                         <span class="keyword-header">Banish from Extra Deck:</span><br>
-                        <span class="fusion-highlight">1 Fusion Monster</span> + 
+                        <span class="fusion-highlight">1 Fusion Monster</span> +
                         <span class="xyz-highlight">2 XYZ Monsters</span> (same Rank)<br>
                         <em class="condition">Total Levels/Ranks = Total cards in both players' hands and fields</em>
                     </p>
                 </div>
             </div>
-    
+
             <div class="effect-arrow">▼</div>
-    
+
             <div class="effect-phase">
                 <div class="phase-marker">2</div>
                 <div class="phase-content">
                     <p>
                         <span class="keyword-header">Return to Extra Deck:</span><br>
-                        <span class="fusion-highlight">1 Fusion Monster</span> + 
+                        <span class="fusion-highlight">1 Fusion Monster</span> +
                         <span class="xyz-highlight">1 XYZ Monster</span> from banished<br>
                         <em class="condition">Total Levels/Ranks = Level/Rank of 1 face-up monster your opponent controls</em>
                     </p>
@@ -99,12 +99,12 @@
                 </div>
             </div>
         </div>
-    
+
         <div class="strategy-guide">
             <h2>Notes</h2>
-            <div class="strategy-line">It's not HOPT so you can activate it multiple times per turn</div>
-            <div class="strategy-line">This card has no cost. All the banish and choosing happen resolution</div>
-            <div class="strategy-line">The 2nd part of effect that return banished monsters and banish opponent's cards is optional</div>
+            <div class="strategy-line">The effect isn't HOPT so you can activate it multiple times per turn</div>
+            <div class="strategy-line">This card has no cost. All the banishing and choosing happen in resolution</div>
+            <div class="strategy-line">The 2nd part of effect that returns banished monsters and banishes opponent's cards is optional</div>
             <div class="strategy-line">Returned monsters can be different from banished ones</div>
             <div class="strategy-line">Utilize cards like Dogmatika Punishment, Furnitures, Arias, Ice Dragon Prison... to manipulate the total card count</div>
         </div>
@@ -114,49 +114,17 @@
             <span>Math Nerd</span>
             <span class="expand-icon">▼</span>
         </div>
-        <div class="math-content">
-            <div class="math-text">
-                <p>When \(a \ne 0\), there are two solutions to \(ax^2 + bx + c = 0\) and they are
-                    $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$</p>
-                <h3>TLDR</h3>
-                <p>\textup(Monster Target) \( T < C < 2T \)</p>
-    
-                <h3>Derivation</h3>
-                <p>Let \( X \) = XYZ Rank, \( F \) = Fusion Level</p>
-                
-                <p>From SEC Requirements:</p>
-                \[
-                \begin{cases}
-                    2X + F = C & \text{(Total Cards)} \\
-                    X + F = T & \text{(Monster Target)}
-                \end{cases}
-                \]
-                
-                <p>Solving Simultaneously:</p>
-                <p>From ②: \( F = T - X \)</p>
-                <p>Substitute into ①:</p>
-                \[
-                2X + (T - X) = C \implies X = C - T
-                \]
-                
-                <p>Then:</p>
-                \[
-                F = T - (C - T) = 2T - C
-                \]
-                
-                <p>Valid Solutions Require:</p>
-                \[
-                \begin{aligned}
-                    X > 0 &\implies C - T > 0 \implies C > T \\
-                    F > 0 &\implies 2T - C > 0 \implies C < 2T
-                \end{aligned}
-                \]
-                
-                \[
-                \therefore T < C < 2T
-                \]
-            </div>
-        </div>
+        
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mathSection = document.querySelector('.math-section');
+            const mathHeader = document.querySelector('.math-header');
+
+            mathHeader.addEventListener('click', () => {
+                mathSection.classList.toggle('open');
+            });
+        });
+    </script>
 </body>
 </html>

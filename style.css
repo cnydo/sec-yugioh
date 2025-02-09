@@ -10,7 +10,13 @@
     --transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-* {
+/* Global Container Settings */
+body > *:not(.custom-header) {
+    margin: 0 auto 1.5rem;
+    /* max-width: 1200px;  Removed max-width from here */
+}
+
+* :not(.math-text, .math-text *) {
     font-family: 'Inter', sans-serif;
     box-sizing: border-box;
     margin: 0;
@@ -21,6 +27,8 @@ body {
     background-color: var(--beige);
     padding: 20px;
     min-height: 100vh;
+    max-width: 1200px; /* Added max-width to body */
+    margin: 0 auto;      /* Added margin: 0 auto to center body content */
 }
 
 .container {
@@ -29,16 +37,34 @@ body {
     gap: 20px;
     width: 100%;
     margin: 0 auto;
+    padding: 1.5rem; /* Added padding to container */
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    margin-bottom: 1.5rem; /* Added margin between containers */
+}
+
+.explanation-box,
+.math-section,
+.grid,
+.controls {
+    padding: 1.5rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    margin-bottom: 1.5rem; /* Added margin between containers */
 }
 
 .custom-header {
     position: relative;
-    width: 100%;
+    width: calc(100% - 2rem); /* Reduced width slightly from full width */
+    margin: 20px auto 1.5rem;
     height: 400px;
     overflow: hidden;
     border-radius: 10px;
     margin-bottom: 20px;
     box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    padding: 0;
 }
 
 .header-image {
@@ -278,7 +304,7 @@ body {
 .effect-arrow {
     color: var(--target-cell);
     text-align: center;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     margin: -0.5rem 0;
 }
 
@@ -357,14 +383,23 @@ body {
     .effect-flow {
         padding-left: 1rem;
     }
-    
+
     .effect-phase {
         flex-direction: column;
         padding: 1rem;
     }
-    
+
     .strategy-line {
         font-size: 0.9rem;
+    }
+
+    body > *:not(.custom-header) {
+        width: calc(100% - 1rem);
+        margin: 0 auto 1rem;
+    }
+
+    .custom-header {
+        width: calc(100% - 1rem);
     }
 }
 
@@ -566,14 +601,19 @@ body {
 }
 
 .math-content {
-    padding: 1rem 1rem; /* Original side padding */
-    box
+    padding: 0 1rem; /* Reduced side padding, removed top/bottom padding */
+    display: none; /* Initially hidden */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) ;
+    overflow: hidden; /* Prevent box-shadow overflow when collapsed */
+}
+
+.math-section {
+    background: rgba(147, 181, 198, 0.08);
 }
 
 .math-section.open .math-content {
-    padding: 1rem; /* Add uniform padding when expanded */
-    display: flex;
-    gap: 1rem; /* Space between header and content */
+    padding: 1rem; /* Added uniform padding when expanded */
+    display: block; /* Display when open */
 }
 
 .math-section.open .expand-icon {
@@ -594,26 +634,28 @@ pre {
 }
 
 .math-text {
-    padding: 1.5rem;
-    margin: 1rem 1rem; /* Add vertical margin */
+    padding: 1rem; /* Reduced padding */
+    margin: 0; /* Removed vertical margin */
     width: auto;
     box-sizing: border-box;
     position: relative;
     background: rgba(255,255,255,0.9);
     border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: none; /* Removed box-shadow from math-text to reduce redundant box feeling */
+    line-height: 1.5;
 }
 
 .math-text h3 {
-    margin: 1.5rem 0 1rem;
+    color: var(--highlight-red);
+    margin: 1.5em 0 0.8em;
 }
 
 .math-text h3:first-child {
-    margin-top: 0.5rem; /* Reduce top spacing for first heading */
+    margin-top: 0; /* Reduce top spacing for first heading */
 }
 
 .math-text p {
-    margin: 0.8em 0;
+    margin: 1em 0;
 }
 
 .math-text .MathJax {
@@ -621,7 +663,7 @@ pre {
 }
 
 .MathJax_Display {
-    margin: 1em 0 !important;
+    margin: 1.5em 0 !important;
 }
 
 /* Fix equation rendering colors */
@@ -634,4 +676,15 @@ pre {
     content: '';
     display: block;
     height: 1rem;
+}
+
+.container,
+.explanation-box,
+.math-section,
+.grid,
+.controls {
+    width: calc(100% - 40px);
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1.5rem;
 }

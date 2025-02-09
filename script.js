@@ -148,4 +148,20 @@ function setupEventListeners() {
 }
 
 // Initialize app when ready
-document.addEventListener('DOMContentLoaded', initializeApp);
+document.addEventListener('DOMContentLoaded', () => {
+    initializeApp();
+    
+    // Add math section toggle
+    const mathHeader = document.querySelector('.math-header');
+    if (mathHeader) {
+        mathHeader.addEventListener('click', function() {
+            const section = this.closest('.math-section');
+            section.classList.toggle('open');
+            
+            // Reprocess MathJax when opening
+            if (section.classList.contains('open') && window.MathJax) {
+                MathJax.typesetPromise([section]);
+            }
+        });
+    }
+});
