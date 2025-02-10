@@ -149,7 +149,30 @@ function initializeClipboard() {
     });
 }
 
+function initializeCollapsibles() {
+    const coll = document.getElementsByClassName("collapsible");
+    for (let i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            const content = this.nextElementSibling;
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+                this.textContent = this.textContent.replace('▴', '▾');
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+                this.textContent = this.textContent.replace('▾', '▴');
+                
+                // Force MathJax to reprocess when math section is opened
+                if (content.classList.contains('math-content')) {
+                    MathJax.Hub.Queue(["Typeset", MathJax.Hub, content]);
+                }
+            }
+        });
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     initializeApp();
     initializeClipboard();
+    initializeCollapsibles();
 });

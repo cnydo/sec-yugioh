@@ -6,6 +6,19 @@
     <title>SEC Deck Builder</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
+    <!-- Add MathJax configuration -->
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            }
+        });
+    </script>
+    <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS_HTML">
+    </script>
 </head>
 <body>
     <header class="custom-header">
@@ -58,54 +71,105 @@
     <script src="script.js"></script>
     <section class="explanation-box">
         <h2 class="effect-heading">Card Effect Breakdown</h2>
-        <p class="effect-subheading">Activation Requirements & Resolution Steps</p>
-        
-        <div class="effect-step">
-            <div class="step-number">1</div>
-            <div class="step-content">
-                <h3>Cost Payment</h3>
-                <p>Banish from your Extra Deck face-up:</p>
-                <ul class="cost-list">
-                    <li><span class="xyz-text">2 XYZ Monsters</span> with the same Rank</li>
-                    <li><span class="fusion-text">1 Fusion Monster</span></li>
-                </ul>
-                <p class="condition">Their combined Levels/Ranks must equal the total number of cards in both players' hands and on the field.</p>
+        <div class="effect-conditions">
+            <div class="equation-box">
+                <span class="xyz-text">2 XYZ</span> + <span class="fusion-text">1 Fusion</span> = <span class="total-text">Total cards</span> <span class="note">(field + hands)</span>
+            </div>
+            <div class="equation-box">
+                <span class="xyz-text">1 XYZ</span> + <span class="fusion-text">1 Fusion</span> = <span class="target-text">Target's Level/Rank</span>
             </div>
         </div>
-    
-        <div class="effect-step">
-            <div class="step-number">2</div>
-            <div class="step-content">
-                <h3>Effect Resolution</h3>
-                <p>Return to the Extra Deck:</p>
-                <ul class="resolution-list">
-                    <li><span class="xyz-text">1 XYZ Monster</span> from your banished cards</li>
-                    <li><span class="fusion-text">1 Fusion Monster</span> from your banished cards</li>
-                </ul>
-                <p class="condition">Their combined Levels/Ranks must match the Level/Rank of 1 face-up monster your opponent controls.</p>
-                <p class="result">Then, banish all cards your opponent controls.</p>
+
+        <div class="formula-section">
+            <h3>Quick Formula</h3>
+            <div class="quick-formula">
+                <p><span class="xyz-text">XYZ</span> = <span class="total-text">Total</span> - <span class="target-text">Target</span></p>
+                <p><span class="fusion-text">Fusion</span> = <span class="target-text">Target</span> - <span class="xyz-text">XYZ</span></p>
+                <p class="condition-text"><span class="target-text">Target</span> < <span class="total-text">Total</span> < <strong class="number-large">2</strong>×<span class="target-text">Target</span></p>
             </div>
         </div>
-    
+
+        <div class="collapsible-section">
+            <button class="collapsible">Step by Step Resolution ▾</button>
+            <div class="content">
+                <ol class="resolution-steps">
+                    <li>Pick <span class="xyz-text">2 face-up XYZ monsters</span> with same Rank from your Extra Deck</li>
+                    <li>Pick <span class="fusion-text">1 face-up Fusion monster</span> from your Extra Deck</li>
+                    <li>Their combined Ranks/Levels must equal total cards in both players' hands and field</li>
+                    <li>Return to Extra Deck: <span class="xyz-text">1 banished XYZ</span> + <span class="fusion-text">1 banished Fusion</span></li>
+                    <li>Their combined Ranks/Levels must equal opponent's monster's Level/Rank</li>
+                    <li>Banish all cards opponent controls</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="collapsible-section">
+            <button class="collapsible">Math Nerd Section ▾</button>
+            <div class="content math-content">
+                <div class="math-text">
+                    <h3>Where the heck do these quick formula and condition come from? </h3>
+                    <p>Let \( X \) = XYZ Rank, \( F \) = Fusion Level, \( C \) = Total card count, \( T \) = Monster target's level/rank</p>
+                    <p>Condition: \[
+                        \begin{cases}
+                        \begin{aligned}
+                            X,F,T &\in \{n \in \mathbb{N^{*}} \mid 1 \leq n \leq 12 \} \\
+                            C &\in \mathbb{N}  \\
+                        \end{aligned}
+                        \end{cases}
+                    \]</p>
+                    <p>Because \(X + F = T > 0 \iff
+                        \begin{cases}
+                            X < T \\
+                            F < T
+                        \end{cases}
+                        \)</p>
+                    <p>From SEC Requirements:</p>
+                    \[
+                    \begin{cases}
+                        \begin{aligned}
+                            2X + F &={} C  \\
+                            X + F &={} T
+                        \end{aligned}
+                    \end{cases}
+                    \iff
+                    \begin{cases}
+                        \begin{aligned}
+                                X &={} C - T  \\
+                                X + F &={} T
+                        \end{aligned}
+                    \end{cases}
+                    \iff
+                    \begin{cases}
+                        \begin{alignat}{2}
+                            X &={} C - T \\
+                            F &={} T - X = 2T - C
+                        \end{alignat}
+                    \end{cases}
+                    \]
+                    <p>Valid Solutions Require:</p>
+                    \[
+                    \begin{alignat}{3}
+                        X > 0 &\implies  &C - T &> 0&  &\implies C > T \\
+                        F > 0 &\implies &2T - C &> 0& &\implies C < 2T
+                    \end{alignat}
+                    \]
+
+                    \[
+                    \therefore T < C < 2T
+                    \]
+                </div>
+            </div>
+        </div>
+
         <div class="key-tips">
-            <h2 class="tips-heading">Advanced Play Tips</h2>
-            <ul class="tip-list">
-                <li>
-                    <div class="tip-header">Chain Flexibility</div>
-                    <div class="tip-content">Activate during either player's turn. Not HOPT - can be used multiple times per turn if possible</div>
-                </li>
-                <li>
-                    <div class="tip-header">Resource Management</div>
-                    <div class="tip-content">Returned monsters don't need to be the ones banished for activation</div>
-                </li>
-                <li>
-                    <div class="tip-header">Combo Potential</div>
-                    <div class="tip-content">Pair with Dogmatika cards or Maxx "C" to manipulate card counts</div>
-                </li>
-                <li>
-                    <div class="tip-header">Mind Games</div>
-                    <div class="tip-content">Opponents can't anticipate which monster you'll target for the second effect</div>
-                </li>
+            <h2 class="tips-heading">Notes & Miscellaneous</h2>
+            <ul class="tip-list simple-list">
+                <li>This card isn't HOPT</li>
+                <li>This card has no cost</li>
+                <li>All of the text happens at resolution. Therefore, your opponent can't know which monster you would choose until you resolve SEC</li>
+                <li>Returned monsters don't need to be the ones banished</li>
+                <li>You can manipulate total card count with Furnitures, Arias, or any removal trap, ...</li>
+                <li>The 2nd part of the effect (return and banish) is optional</li>
             </ul>
         </div>
     </section>

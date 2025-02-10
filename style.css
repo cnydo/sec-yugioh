@@ -492,7 +492,9 @@ tr {
 .tips-heading {
     color: var(--fusion-color);
     font-size: 1.4rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.2rem;
+    border-bottom: 2px solid var(--sage);
+    padding-bottom: 0.5rem;
 }
 
 .condition {
@@ -674,4 +676,182 @@ tr {
 .usage-guide p {
     margin: 4px 0;
     color: #666;
+}
+
+.effect-conditions {
+    margin: 20px 0;
+    padding: 15px;
+    background: rgba(147, 181, 198, 0.1);
+    border-radius: 8px;
+}
+
+.equation-box {
+    margin: 10px 0;
+    font-size: 1.2em;
+    font-weight: 500;
+    padding: 10px;
+    border-left: 3px solid var(--fusion-color);
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.xyz-text {
+    color: var(--xyz-color);
+    font-weight: 700;
+}
+
+.fusion-text {
+    color: var(--fusion-color);
+    font-weight: 700;
+}
+
+.total-text {
+    color: var(--total-color);
+    font-weight: 700;
+}
+
+.target-text {
+    color: var(--target-cell);
+    font-weight: 700;
+}
+
+.note {
+    color: #666;
+    font-size: 0.9em;
+    font-weight: normal;
+}
+
+.condition-box {
+    margin-top: 15px !important;
+    background: rgba(147, 181, 198, 0.05) !important;
+    border-left-color: var(--target-cell) !important;
+    font-size: 1.1em;
+}
+
+.collapsible {
+    background: none;
+    width: 100%;
+    padding: 15px;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 1.1em;
+    cursor: pointer;
+    border-bottom: 2px solid var(--sage);
+    transition: 0.3s;
+}
+
+.collapsible:hover {
+    background: rgba(147, 181, 198, 0.1);
+}
+
+.collapsible.active {
+    border-bottom-color: var(--fusion-color);
+}
+
+.content {
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    background-color: white;
+}
+
+.resolution-steps {
+    padding: 20px;
+    list-style-position: inside;
+}
+
+.resolution-steps li {
+    margin: 10px 0;
+    line-height: 1.5;
+}
+
+.formula-box {
+    margin: 20px 0;
+    padding: 15px;
+    background: rgba(147, 181, 198, 0.1);
+    border-radius: 8px;
+}
+
+.formula-box p {
+    margin: 8px 0;
+    font-family: 'Consolas', monospace;
+}
+
+.formula-section {
+    margin: 20px 0;
+    padding: 15px;
+    background: rgba(147, 181, 198, 0.05);
+    border-radius: 8px;
+}
+
+.formula-section h3 {
+    color: var(--fusion-color);
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.quick-formula {
+    background: white;
+    padding: 15px;
+    border-radius: 6px;
+    border-left: 3px solid var(--xyz-color);
+}
+
+.quick-formula p {
+    font-size: 1.1em;
+    margin: 8px 0;
+    font-family: 'Consolas', monospace;
+}
+
+.condition-text {
+    margin-top: 15px !important;
+    padding-top: 10px;
+    border-top: 1px dashed var(--sage);
+}
+
+.number-large {
+    font-size: 1em;
+    font-weight: 700;
+}
+
+.math-content {
+    padding: 0 !important;
+}
+
+.math-text {
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+.math-text h3 {
+    color: var(--fusion-color);
+    margin-bottom: 1rem;
+}
+
+.math-text p {
+    margin: 1.5rem 0;
+}
+
+.simple-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    list-style: none;
+}
+
+.simple-list li {
+    color: #555;
+    line-height: 1.4;
+    padding-left: 1.2rem;
+    position: relative;
+}
+
+.simple-list li::before {
+    content: "•";
+    color: var(--fusion-color);
+    position: absolute;
+    left: 0;
+    font-weight: bold;
 }
