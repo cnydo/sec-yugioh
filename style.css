@@ -8,6 +8,32 @@
     --sage: #CCD3CA;
     --target-cell: #A75D5D;
     --transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+    --scrollbar-width: 12px;
+    --toast-bg: rgba(0, 0, 0, 0.8);
+}
+
+/* Website scrollbar styling */
+html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--fusion-color) var(--beige);
+}
+
+::-webkit-scrollbar {
+    width: var(--scrollbar-width);
+}
+
+::-webkit-scrollbar-track {
+    background: var(--beige);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--fusion-color);
+    border-radius: 6px;
+    border: 3px solid var(--beige);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--highlight-red);
 }
 
 * {
@@ -29,6 +55,8 @@ body {
     gap: 20px;
     width: 100%;
     margin: 0 auto;
+    max-width: 100%;
+    overflow-x: auto;
 }
 
 .custom-header {
@@ -38,7 +66,7 @@ body {
     overflow: hidden;
     border-radius: 10px;
     margin-bottom: 20px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 .header-image {
@@ -78,18 +106,12 @@ body {
 }
 
 .controls,
-.grid {
+.grid,
+.explanation-box {
     background: white;
     border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     padding: 20px;
-}
-
-.explanation-box {
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 12px;
-    padding: 2rem;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
 }
 
 .btn-group {
@@ -100,15 +122,20 @@ body {
 }
 
 .btn {
-    padding: 12px 0;
+    padding: 15px 0;  /* Increased vertical padding */
     border: none;
     border-radius: 8px;
     cursor: pointer;
     background: var(--sage);
     color: #333;
-    transition: all 0.2s;
+    transition: all 0.3s ease, box-shadow 0.5s ease;
     font-weight: 600;
+    font-size: 1.1em;  /* Larger font size */
     text-align: center;
+    min-height: 50px;  /* Ensure minimum height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn:hover {
@@ -118,11 +145,13 @@ body {
 .btn.xyz-selected {
     background: var(--xyz-color);
     color: white;
+    box-shadow: 0 0 15px var(--xyz-color);
 }
 
 .btn.fusion-selected {
     background: var(--fusion-color);
     color: white;
+    box-shadow: 0 0 15px var(--fusion-color);
 }
 
 .counter {
@@ -142,69 +171,167 @@ body {
 .grid {
     position: relative;
     margin-bottom: 20px;
+    width: 100%;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--fusion-color) var(--fusion-color);
+    transform: none;
+    transform-origin: unset;
+}
+
+/* Webkit scrollbar styling */
+.grid::-webkit-scrollbar {
+    height: 8px;
+}
+
+.grid::-webkit-scrollbar-track {
+    background: var(--beige);
+    border-radius: 4px;
+}
+
+.grid::-webkit-scrollbar-thumb {
+    background: var(--fusion-color);
+    border-radius: 4px;
+}
+
+.grid::-webkit-scrollbar-thumb:hover {
+    background: var(--highlight-red);
 }
 
 .grid table {
     border-collapse: separate;
-    border-spacing: 8px;
+    border-spacing: 0;  /* Reset spacing, we'll use margins instead */
     width: 100%;
 }
 
+tr {
+    display: flex;
+    align-items: center; /* Center items vertically */
+    gap: 8px;  /* Increased gap between target cell and combo cells */
+    margin-bottom: 8px;  /* Consistent vertical spacing */
+    min-height: fit-content;
+    position: relative;
+}
+
 .target-cell {
-    width: 45px;
-    height: 45px;
-    padding: 8px;
-    font-weight: 700;
+    flex: 0 0 35px; /* Smaller size */
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: var(--target-cell);
     color: white;
-    text-align: center;
+    font-weight: 700;
     border-radius: 6px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: 
+        all 0.3s var(--transition-timing),
+        transform 0.4s var(--transition-timing),
+        box-shadow 0.4s var(--transition-timing);
 }
 
 .target-cell.selected {
     background: var(--highlight-red);
-    transform: scale(1.1);
-    box-shadow: 0 0 12px rgba(226, 62, 87, 0.3);
+    box-shadow: 
+        0 0 15px var(--highlight-red),
+        0 4px 8px rgba(0, 0, 0, 0.3),  /* Increased shadow depth */
+        0 2px 4px rgba(0, 0, 0, 0.2);  /* Additional inner shadow */
+    transform: translateY(-2px) translateZ(0);  /* Slightly more lift */
 }
 
 .combos-cell {
-    padding: 5px 8px;
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;  /* Increased gap between combo groups */
+    align-items: center;
+    padding: 3px;
+    min-height: 40px; /* Match target cell height */
 }
 
 .combo-group {
     display: inline-flex;
-    margin: 2px;
-    border-radius: 8px;
-    vertical-align: middle;
-    transition: all 0.2s ease;
+    height: 35px; /* Match smaller target cell height */
+    border-radius: 6px;
+    overflow: hidden;
+    transform-style: preserve-3d;  /* Enable 3D space */
+    transform: translateZ(0);  /* Reset default transform */
+    box-shadow: none;  /* Remove default shadow */
+    transition: 
+        transform 0.4s var(--transition-timing),
+        box-shadow 0.4s var(--transition-timing),
+        opacity 0.5s var(--transition-timing),
+        filter 0.5s var(--transition-timing);
 }
 
-.combo-group.target-highlight {
-    border: 2px solid var(--highlight-red);
-    background: rgba(226, 62, 87, 0.1);
+.combo-group.fade {
+    opacity: 0.12;  /* Slightly more transparent */
+    visibility: visible; /* Keep space */
+    filter: grayscale(60%) blur(0.5px);  /* Add grayscale and blur effect */
+    transform: scale(0.98) translateZ(-2px);  /* Slightly more depth */
 }
 
+/* New highlight styles */
+.combo-group.xyz-highlight:not(.fade),
+.combo-group.fusion-highlight:not(.fade),
+.combo-group.target-highlight:not(.fade) {
+    box-shadow: 
+        0 3px 10px rgba(226, 62, 87, 0.2),
+        0 2px 4px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px) translateZ(1px);
+}
+
+/* Update highlight styles for each type */
+.combo-group.xyz-highlight:not(.fade) {
+    box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.2),
+        0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px) translateZ(1px);
+    transition: 
+        transform 0.3s var(--transition-timing),
+        box-shadow 0.4s var(--transition-timing);
+}
+
+.combo-group.fusion-highlight:not(.fade) {
+    box-shadow: 
+        0 4px 12px rgba(188, 90, 132, 0.25),
+        0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px) translateZ(1px);
+}
+
+.combo-group.target-highlight:not(.fade) {
+    box-shadow: 
+        0 4px 12px rgba(226, 62, 87, 0.25),
+        0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px) translateZ(1px);
+}
+
+/* Remove old highlight classes */
+.combo-group.target-highlight,
 .combo-group.available {
-    background: rgba(226, 62, 87, 0.2);
-    border: 2px solid var(--highlight-red);
+    border: none;
+    background: none;
 }
 
 .combo-part {
-    width: 35px;
-    height: 22px;
+    width: 35px; /* Match smaller size */
+    height: 35px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.7em;
+    font-size: 1.1em; /* Larger font */
+    font-weight: 600; /* Bolder font */
     color: white;
-    font-weight: 500;
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.combo-part:last-child {
+    border-right: none;
 }
 
 .total-part {
     background: var(--total-color);
-    border-radius: 6px 0 0 6px;
+    border-radius: 6px 0 0 6px; /* Match parent border-radius */
 }
 
 .xyz-part {
@@ -213,7 +340,7 @@ body {
 
 .fusion-part {
     background: var(--fusion-color);
-    border-radius: 0 6px 6px 0;
+    border-radius: 0 6px 6px 0; /* Match parent border-radius */
 }
 
 .legend {
@@ -245,6 +372,39 @@ body {
 .color-box.fusion-part { background: var(--fusion-color); }
 .color-box.target-part { background: var(--highlight-red); }
 
+.color-box.target-part {
+    background: var(--target-cell);
+    transition: all 0.3s ease, box-shadow 0.4s var(--transition-timing);
+}
+
+.color-box.target-part.glowing {
+    background: var(--highlight-red);
+    box-shadow: 
+        0 0 15px var(--highlight-red),
+        0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.legend-states {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.legend-states::after {
+    content: "→";
+    font-size: 0.8em;
+    color: #666;
+    margin: 0 2px;
+}
+
+.color-box.target-part.default {
+    background: var(--target-cell);
+}
+
+.color-box.target-part.selected {
+    background: var(--highlight-red);
+}
+
 @media (max-width: 768px) {
     .effect-step {
         flex-direction: column;
@@ -258,6 +418,48 @@ body {
     
     .tips-heading {
         font-size: 1.2rem;
+    }
+
+    .grid {
+        margin: 10px 0;
+        padding: 0 10px;
+    }
+
+    .target-cell,
+    .combo-part {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9em;
+    }
+
+    .combos-cell {
+        gap: 6px;
+        padding: 2px;
+        padding-left: 38px;
+    }
+
+    .combo-group {
+        transform-origin: left center;
+    }
+
+    tr {
+        gap: 6px;
+        margin-bottom: 6px;
+    }
+
+    .target-cell {
+        flex: 0 0 35px;
+        height: 35px;
+    }
+
+    .combo-group {
+        height: 35px;
+    }
+
+    .combos-cell {
+        min-height: 35px;
+        gap: 6px;
+        padding: 2px;
     }
 }
 
@@ -374,4 +576,88 @@ body {
     color: var(--total-color);
     position: absolute;
     left: 0;
+}
+
+.contact-section {
+    margin-top: 10px;
+    padding: 10px;
+    text-align: center;
+    font-size: 0.85em;
+    color: var(--target-cell);
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.contact-section:hover {
+    opacity: 1;
+}
+
+.contact-container {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.contact-item {
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.contact-item:hover {
+    transform: translateY(-2px);
+}
+
+.contact-icon {
+    width: 20px;
+    height: 20px;
+    opacity: 0.8;
+}
+
+.contact-text {
+    font-size: 0.85em;
+    color: var(--target-cell);
+}
+
+.toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--toast-bg);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.toast.show {
+    opacity: 1;
+}
+
+@keyframes single-glow {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+    }
+    100% {
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+    }
+}
+
+@keyframes select-glow {
+    0% {
+        box-shadow: 0 0 0 0 rgba(226, 62, 87, 0.4);
+    }
+    100% {
+        box-shadow: 0 0 15px rgba(226, 62, 87, 0.6);
+    }
 }

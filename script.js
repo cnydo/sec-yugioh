@@ -4,13 +4,13 @@ let selectedTargets = new Set();
 
 function initializeApp() {
     createButtons();
-    createGrid();
+    createNewGrid();
     document.querySelector('#mainGrid tbody').addEventListener('click', handleGridClick);
 }
 
 function createButtons() {
-    createButtonGroup('xyzRanks', 12, 'xyz');
-    createButtonGroup('fusionLevels', 12, 'fusion');
+    createButtonGroup('xyzRanks', 11, 'xyz');
+    createButtonGroup('fusionLevels', 11, 'fusion');
 }
 
 function createButtonGroup(containerId, count, type) {
@@ -33,7 +33,7 @@ function toggleSelection(value, type, event) {
     updateCombinations();
 }
 
-function createGrid() {
+function createNewGrid() {
     const tbody = document.querySelector('#mainGrid tbody');
     tbody.innerHTML = '';
     
@@ -61,6 +61,11 @@ function handleGridClick(event) {
         const target = parseInt(targetCell.dataset.target);
         selectedTargets.has(target) ? selectedTargets.delete(target) : selectedTargets.add(target);
         targetCell.classList.toggle('selected', selectedTargets.has(target));
+        
+        // Update legend target color box
+        const legendTargetBox = document.querySelector('.legend .color-box.target-part');
+        legendTargetBox.classList.toggle('glowing', selectedTargets.size > 0);
+        
         updateCombinations();
     }
 }
@@ -72,16 +77,25 @@ function updateCombinations() {
         
         for (let x = 1; x < target; x++) {
             const f = target - x;
-            if (f < 1 || f > 12) continue;
+            if (f < 1 || f > 11) continue;
             
             const comboGroup = document.createElement('div');
             comboGroup.className = 'combo-group';
             
-            const isAvailable = xyzSelections.has(x) && fusionSelections.has(f);
+            const isXyzMatch = xyzSelections.has(x);
+            const isFusionMatch = fusionSelections.has(f);
             const isHighlighted = selectedTargets.has(target);
             
-            comboGroup.classList.toggle('available', isAvailable);
-            comboGroup.classList.toggle('target-highlight', isHighlighted);
+            // Add individual highlight classes
+            if (isXyzMatch) comboGroup.classList.add('xyz-highlight');
+            if (isFusionMatch) comboGroup.classList.add('fusion-highlight');
+            if (isHighlighted) comboGroup.classList.add('target-highlight');
+            
+            comboGroup.classList.toggle('fade', 
+                (xyzSelections.size > 0 && !isXyzMatch) || 
+                (fusionSelections.size > 0 && !isFusionMatch) || 
+                (selectedTargets.size > 0 && !isHighlighted)
+            );
             
             [ (2 * x) + f, x, f ].forEach((value, index) => {
                 const part = document.createElement('span');
@@ -99,4 +113,43 @@ function updateCombinations() {
         xyzSelections.size * 2 + fusionSelections.size > 15 ? 'Extra Deck limit exceeded!' : '';
 }
 
-document.addEventListener('DOMContentLoaded', initializeApp);
+function showToast(message) {
+    const existingToast = document.querySelector('.toast');
+    if (existingToast) {
+        existingToast.remove();
+    }
+
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+
+    // Force reflow
+    toast.offsetHeight;
+    toast.classList.add('show');
+
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+    }, 2000);
+}
+
+function initializeClipboard() {
+    document.querySelectorAll('[data-clipboard]').forEach(button => {
+        button.addEventListener('click', () => {
+            const text = button.getAttribute('data-clipboard');
+            navigator.clipboard.writeText(text)
+                .then(() => {
+                    showToast('Copied to clipboard!');
+                })
+                .catch(() => {
+                    showToast('Failed to copy');
+                });
+        });
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    initializeApp();
+    initializeClipboard();
+});
