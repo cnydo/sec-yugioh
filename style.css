@@ -661,3 +661,17 @@ tr {
         box-shadow: 0 0 15px rgba(226, 62, 87, 0.6);
     }
 }
+
+.usage-guide {
+    margin-top: 15px;
+    padding: 12px;
+    background: rgba(147, 181, 198, 0.1);
+    border-radius: 8px;
+    font-size: 0.9em;
+    line-height: 1.4;
+}
+
+.usage-guide p {
+    margin: 4px 0;
+    color: #666;
+}
